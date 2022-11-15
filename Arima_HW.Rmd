@@ -1,0 +1,28 @@
+
+
+```{r}
+library(fpp)
+library(fpp2)
+library(forecast)
+data <- fpp::cafe
+data_ts <- ts(data)
+plot(data_ts)
+ndiffs(data_ts)
+tsdisplay(data_ts)
+data_ts_diff1 <- diff(data_ts, differences=1)
+plot(data_ts_diff1)
+tsdisplay(data_ts_diff1)
+auto_fit <- auto.arima(data_ts, trace=TRUE, stepwise = FALSE)
+auto_fit
+attributes(auto_fit)
+plot(forecast(auto_fit,h=5,level=c(99.5)))
+
+#Residual Analysis
+Acf(auto_fit$residuals)
+Box.test(residuals(auto_fit), lag=20, type="Ljung")
+plot.ts(residuals(auto_fit))
+hist(auto_fit$residuals)
+tsdiag(auto_fit)
+
+
+```
